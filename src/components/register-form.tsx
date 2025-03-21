@@ -14,6 +14,7 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { register } from "@/actions/register";
 
 export function RegisterForm() {
   const form = useForm<RegisterSchema>({
@@ -27,8 +28,8 @@ export function RegisterForm() {
     },
   });
 
-  function handleSubmit(values: RegisterSchema) {
-    console.log(values);
+  async function handleSubmit(values: RegisterSchema) {
+    await register(values);
   }
 
   return (

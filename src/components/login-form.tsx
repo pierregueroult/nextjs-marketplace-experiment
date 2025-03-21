@@ -7,6 +7,7 @@ import { Form, FormField, FormItem, FormLabel, FormMessage, FormControl, FormDes
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { login } from "@/actions/login";
 
 export function LoginForm() {
   const form = useForm<LoginSchema>({
@@ -17,8 +18,8 @@ export function LoginForm() {
     },
   });
 
-  function handleSubmit(values: LoginSchema) {
-    console.log(values);
+  async function handleSubmit(values: LoginSchema) {
+    await login(values);
   }
 
   return (
