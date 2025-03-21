@@ -1,34 +1,14 @@
 import { z } from "zod";
+import { passwordSchema } from "@/schemas/generics/password";
+import { emailSchema } from "@/schemas/generics/email";
 
 export const twoFactorLength: number = 6;
 
-const lowercase: RegExp = /[a-z]/;
-const uppercase: RegExp = /[A-Z]/;
-const number: RegExp = /\d/;
-const specialCharacter: RegExp = /[^a-zA-Z0-9]/;
 const twoFactorCode: RegExp = new RegExp(`^\\d{${twoFactorLength}}$`);
 
 export const loginSchema = z.object({
-  email: z.string().email({
-    message: "L'adresse email fournie n'est pas valide.",
-  }),
-  password: z
-    .string()
-    .min(8, {
-      message: "Le mot de passe doit contenir au moins 8 caractères.",
-    })
-    .regex(lowercase, {
-      message: "Le mot de passe doit contenir au moins une lettre minuscule.",
-    })
-    .regex(uppercase, {
-      message: "Le mot de passe doit contenir au moins une lettre majuscule.",
-    })
-    .regex(number, {
-      message: "Le mot de passe doit contenir au moins un chiffre.",
-    })
-    .regex(specialCharacter, {
-      message: "Le mot de passe doit contenir au moins un caractère spécial.",
-    }),
+  email: emailSchema,
+  password: passwordSchema,
   twoFactorCode: z
     .string()
     .length(twoFactorLength, {

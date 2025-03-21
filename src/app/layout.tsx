@@ -1,8 +1,9 @@
 import "@/styles/globals.css";
+import { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 
 type RootLayoutProps = Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>;
 
 export default function RootLayout({ children }: RootLayoutProps) {
