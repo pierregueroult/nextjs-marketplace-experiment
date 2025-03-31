@@ -3,11 +3,11 @@ import type { MailOptions } from "nodemailer/lib/sendmail-transport";
 import { render } from "@react-email/render";
 import transporter from "@/emails/transporter";
 
-type Send = Omit<MailOptions, "html"> & {
+type EmailSendOptions = Omit<MailOptions, "html"> & {
   template: ReactElement<unknown> | string;
 };
 
-export default async function send({ template, ...options }: Send): Promise<boolean> {
+export default async function send({ template, ...options }: EmailSendOptions): Promise<boolean> {
   const html = typeof template === "string" ? template : await render(template);
 
   try {
