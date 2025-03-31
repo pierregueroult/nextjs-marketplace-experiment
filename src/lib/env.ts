@@ -12,7 +12,7 @@ export const env = createEnv({
       .transform((val) => parseInt(val, 10)),
     SMTP_SERVER_USER: z.string(),
     SMTP_SERVER_PASS: z.string(),
-    SMTP_SERVER_SECURE: z.string().default("false"),
+    SMTP_SERVER_SECURE: z.string().default("false").transform(val => val === "true"),
     BETTER_AUTH_SECRET: z.string(),
     BETTER_AUTH_URL: z.string().url(),
   },
