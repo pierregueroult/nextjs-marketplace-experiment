@@ -1,8 +1,8 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import prisma from "@/database";
 import { twoFactor } from "better-auth/plugins";
-import { toNextJsHandler } from "better-auth/next-js";
+import { nextCookies, toNextJsHandler } from "better-auth/next-js";
+import { prisma } from "@/database";
 
 export const auth = betterAuth({
   appName: "Next.js Marketplace Experiment",
@@ -12,7 +12,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  plugins: [twoFactor()],
+  plugins: [twoFactor(), nextCookies()],
 });
 
 export const { POST, GET } = toNextJsHandler(auth);
