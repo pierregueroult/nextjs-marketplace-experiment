@@ -22,8 +22,14 @@ export const register = actionClient
         };
       }
       try {
-        await signUp(email, password, `${firstName} ${lastName}`, true);
+        await signUp(email, password, `${firstName} ${lastName}`, false);
+
+        return {
+          success: true,
+          message: "Inscription réussie. Veuillez vérifier votre email.",
+        };
       } catch (error) {
+        console.error("Error during registration", error);
         return {
           success: false,
           message: "Une erreur est survenue lors de l'inscription.",

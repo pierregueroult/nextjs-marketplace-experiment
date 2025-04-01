@@ -37,7 +37,9 @@ export function LoginForm() {
   });
 
   async function handleSubmit(values: LoginSchema) {
-    await login(values);
+    const answer = await login(values);
+
+    console.log("answer", answer);
   }
 
   return (
@@ -50,7 +52,9 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="john.doe@mail.com" {...field} />
+                <Input placeholder="john.doe@mail.com" 
+                  type="email"
+                {...field} />
               </FormControl>
               <FormDescription>
                 This is the email you used to sign up
@@ -66,7 +70,9 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input 
+                  type="password"
+                {...field} />
               </FormControl>
               <FormDescription>
                 Must be at least 8 characters long

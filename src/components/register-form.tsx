@@ -3,15 +3,7 @@
 import { registerSchema, RegisterSchema } from "@/schemas/register-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { register } from "@/actions/register";
@@ -29,7 +21,8 @@ export function RegisterForm() {
   });
 
   async function handleSubmit(values: RegisterSchema) {
-    await register(values);
+    const answer = await register(values);
+    console.log("answer", answer);
   }
 
   return (
@@ -72,9 +65,7 @@ export function RegisterForm() {
               <FormControl>
                 <Input placeholder="john.doe@mail.com" {...field} />
               </FormControl>
-              <FormDescription>
-                C'est l'email que vous avez utilisé pour vous inscrire
-              </FormDescription>
+              <FormDescription>C'est l'email que vous avez utilisé pour vous inscrire</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -86,11 +77,9 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Mot de passe</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
-              <FormDescription>
-                Le mot de passe doit contenir au moins 8 caractères
-              </FormDescription>
+              <FormDescription>Le mot de passe doit contenir au moins 8 caractères</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -102,11 +91,9 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Confirmation du mot de passe</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
-              <FormDescription>
-                Les mots de passe doivent correspondre
-              </FormDescription>
+              <FormDescription>Les mots de passe doivent correspondre</FormDescription>
               <FormMessage />
             </FormItem>
           )}
