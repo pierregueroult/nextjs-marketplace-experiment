@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon, CircleXIcon, Loader2Icon } from "lucide-react";
 import { type LoginSchema, loginSchema, twoFactorLength } from "@/schemas/login-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,22 +9,41 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { login } from "@/actions/login";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const [codeEnabled] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
+  const [answer, setAnswer] = useState<{ success: boolean; message: string } | null>(null);
+  const router = useRouter();
+
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   async function handleSubmit(values: LoginSchema) {
-    await login(values);
+    startTransition(async () => {
+      const answer = await login(values);
+      if (!answer?.data) {
+        setAnswer({ success: false, message: "The server did not respond. Please try again later." });
+      } else {
+        setAnswer(answer.data);
+
+        if (answer.data.success) {
+          setTimeout(() => {
+            router.refresh();
+          }, 2000);
+        }
+      }
+    });
   }
 
   return (
@@ -33,6 +53,13 @@ export function LoginForm() {
           <h1 className="text-2xl font-bold">Welcome back</h1>
           <p className="text-balance text-sm text-muted-foreground">Enter your credentials to access your account</p>
         </div>
+        {answer && (
+          <Alert variant={answer.success ? "default" : "destructive"}>
+            {answer.success ? <Loader2Icon className="h-4 w-4 animate-spin" /> : <CircleXIcon className="h-4 w-4" />}
+            <AlertTitle>{answer.success ? "Login Successful" : "Invalid Login Attempt"}</AlertTitle>
+            <AlertDescription>{answer.message}</AlertDescription>
+          </Alert>
+        )}
         <div className="grid gap-6">
           <FormField
             control={form.control}
@@ -102,7 +129,10 @@ export function LoginForm() {
               )}
             />
           )}
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={isPending} className="cursor-pointer">
+            {isPending && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
+            Login
+          </Button>
           <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
             <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
           </div>

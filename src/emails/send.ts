@@ -22,11 +22,12 @@ export default async function send({ template, ...options }: EmailSendOptions) {
       ...options,
     });
   } catch (error: unknown) {
+    console.error("Error sending email", error);
     if (typeof error === "object" && error !== null && "code" in error) {
       const errCode = (error as { code: string }).code;
 
       if (["EENVELOPE", "EADDRESS", "ECONNREFUSED"].includes(errCode)) {
-        log("Email devivery error", {
+        log("Email delivery error", {
           level: "ERROR",
           context: "EMAIL",
           error,
@@ -34,7 +35,7 @@ export default async function send({ template, ...options }: EmailSendOptions) {
         throw new EmailDeliveryError("Invalid email address or delivery failure", error);
       }
 
-      if (["ETIMEDOUT", "ECONNRESET", "EHOSTUNREACH"].includes(errCode)) {
+      if (["ETIMEDOUT", "ECONNRESET", "EHOSTUNREACH", "ESOCKET"].includes(errCode)) {
         log("SMTP Server Not Responding", {
           level: "ERROR",
           context: "EMAIL",

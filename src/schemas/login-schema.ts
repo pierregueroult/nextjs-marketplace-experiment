@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { passwordSchema } from "@/schemas/generics/password";
 import { emailSchema } from "@/schemas/generics/email";
 
 export const twoFactorLength: number = 6;
@@ -8,14 +7,16 @@ const twoFactorCode: RegExp = new RegExp(`^\\d{${twoFactorLength}}$`);
 
 export const loginSchema = z.object({
   email: emailSchema,
-  password: passwordSchema,
+  password: z.string().min(8, {
+    message: "Password should be at least 8 characters long.",
+  }),
   twoFactorCode: z
     .string()
     .length(twoFactorLength, {
-      message: `Le code à ${twoFactorLength} chiffres est requis.`,
+      message: `Two-factor code must be exactly ${twoFactorLength} digits.`,
     })
     .regex(twoFactorCode, {
-      message: `Le code à ${twoFactorLength} chiffres est requis.`,
+      message: `Invalid two-factor code format. It should be ${twoFactorLength} digits.`,
     })
     .optional(),
 });

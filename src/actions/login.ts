@@ -2,6 +2,7 @@
 import { actionClient } from "@/lib/safe-action";
 import { loginSchema } from "@/schemas/login-schema";
 import { signIn } from "@/services/auth-server";
+import { APIError as AuthError } from "better-auth/api";
 
 export const login = actionClient
   .schema(loginSchema)
@@ -10,14 +11,20 @@ export const login = actionClient
       await signIn(email, password, true); 
       return {
         success: true,
-        message: "Connexion réussie.",
+        message: "Successfully logged in",
       };
-    } catch (error) {
-      console.error("Error during login", error);
+    } catch (error: unknown) {
+
+      if(error instanceof AuthError) {
+        return {
+          success: false,
+          message: error.message,
+        };
+      }
+
       return {
         success: false,
-        message: "Une erreur est survenue lors de la connexion.",
-        infos: error instanceof Error ? error.message : undefined,
+        message: "An error occurred during login",
       };
     }
   });

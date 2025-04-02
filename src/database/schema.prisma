@@ -87,5 +87,6 @@ model Log {
   message String
   error String?
   stack String?
+  persistent Boolean @default(false)
   createdAt DateTime @default(now())
 }
