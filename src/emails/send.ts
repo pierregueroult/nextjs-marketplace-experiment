@@ -4,6 +4,7 @@ import { render } from "@react-email/render";
 import { env } from "@/lib/env";
 import { EmailDeliveryError, SMTPServerError } from "@/emails/error";
 import { createTransport } from "nodemailer";
+import { log } from "@/lib/logger";
 
 const transporter = createTransport(env.EMAIL_SERVER);
 
@@ -25,15 +26,30 @@ export default async function send({ template, ...options }: EmailSendOptions) {
       const errCode = (error as { code: string }).code;
 
       if (["EENVELOPE", "EADDRESS", "ECONNREFUSED"].includes(errCode)) {
+        log("Email devivery error", {
+          level: "ERROR",
+          context: "EMAIL",
+          error,
+        });
         throw new EmailDeliveryError("Invalid email address or delivery failure", error);
       }
 
       if (["ETIMEDOUT", "ECONNRESET", "EHOSTUNREACH"].includes(errCode)) {
+        log("SMTP Server Not Responding", {
+          level: "ERROR",
+          context: "EMAIL",
+          error,
+        });
         throw new SMTPServerError("SMTP server unavailable or not responding", error);
       }
     }
 
     if (error instanceof Error) {
+      log("Error sending email", {
+        level: "ERROR",
+        context: "EMAIL",
+        error,
+      });
       throw new Error("Unknown email error occurred", { cause: error });
     }
 

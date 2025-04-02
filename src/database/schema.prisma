@@ -79,3 +79,13 @@ model TwoFactor {
 
   @@map("twoFactor")
 }
+
+model Log {
+  id Int @id @default(autoincrement())
+  level String
+  context String?
+  message String
+  error String?
+  stack String?
+  createdAt DateTime @default(now())
+}
