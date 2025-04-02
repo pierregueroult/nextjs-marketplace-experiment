@@ -11,7 +11,7 @@ export const register = actionClient
     if (password !== passwordConfirmation) {
       return {
         success: false,
-        message: "Both passwords does not match.",
+        message: "Both passwords do not match.",
       };
     }
     try {
