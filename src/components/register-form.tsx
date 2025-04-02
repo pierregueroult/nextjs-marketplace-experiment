@@ -8,11 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { register } from "@/actions/register";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
+import { CheckIcon, CircleXIcon, Loader2Icon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 export function RegisterForm() {
   const [step, setStep] = useState<"information" | "password">("information");
+  const [isPending, startTransition] = useTransition();
+  const [answer, setAnswer] = useState<{ success: boolean; message: string } | null>(null);
 
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -27,7 +31,14 @@ export function RegisterForm() {
   });
 
   async function handleSubmit(values: RegisterSchema) {
-    await register(values);
+    startTransition(async () => {
+      const answer = await register(values);
+      if (!answer?.data) {
+        setAnswer({ success: false, message: "The server did not respond. Please try again later." });
+      } else {
+        setAnswer(answer.data);
+      }
+    });
   }
 
   async function handleFirstStep() {
@@ -54,10 +65,21 @@ export function RegisterForm() {
           <h1 className="text-2xl font-bold">Join lebonmarket</h1>
           <p className="text-balance text-sm text-muted-foreground">Create your account to start buying and selling</p>
         </div>
+        {answer && (
+          <Alert
+            variant={answer.success ? "default" : "destructive"}
+          >
+            {answer.success ? <CheckIcon className="h-4 w-4" /> : <CircleXIcon className="h-4 w-4" />}
+            <AlertTitle>{answer.success ? "Account created" : "Error while creating account"}</AlertTitle>
+            <AlertDescription>{answer.message}</AlertDescription>
+          </Alert>
+        )}
         <Tabs defaultValue="information" onValueChange={onTabChange} value={step}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="information">Information</TabsTrigger>
-            <TabsTrigger value="password" disabled={step === "information"}>
+            <TabsTrigger value="information" disabled={isPending}>
+              Information
+            </TabsTrigger>
+            <TabsTrigger value="password" disabled={step === "information" || isPending}>
               Credentials
             </TabsTrigger>
           </TabsList>
@@ -175,12 +197,23 @@ export function RegisterForm() {
               )}
             />
             <div className="grid w-full grid-cols-2 gap-4">
-              <Button variant="outline" onClick={handleBack} type="button" className="cursor-pointer">
+              <Button
+                variant="outline"
+                onClick={handleBack}
+                type="button"
+                className="cursor-pointer"
+                disabled={isPending}
+              >
                 Back
               </Button>
-              <Button type="submit" className="cursor-pointer">
+              <Button type="submit" className="cursor-pointer" disabled={isPending}>
+                {isPending && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
                 Register
               </Button>
+            </div>
+            <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  ">
+              By clicking register, you agree to our <a href="/legals/terms-of-service">Terms of Service</a> and{" "}
+              <a href="/legals/privacy-policy">Privacy Policy</a>. .
             </div>
           </TabsContent>
         </Tabs>
