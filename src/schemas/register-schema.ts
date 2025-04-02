@@ -4,16 +4,16 @@ import { passwordSchema } from "./generics/password";
 
 export const registerSchema = z.object({
     firstName: z.string().nonempty({
-        message: "Le prénom est requis.",
+        message: "First name is required.",
     }),
     lastName: z.string().nonempty({
-        message: "Le nom est requis.",
+        message: "Name is required.",
     }),
     email: emailSchema,
     password: passwordSchema,
     passwordConfirmation: passwordSchema,
 }).refine(data => data.password === data.passwordConfirmation, {
-    message: "Les mots de passe ne correspondent pas.",
+    message: "Both passwords must match.",
     path: ["passwordConfirmation"]
 });
 

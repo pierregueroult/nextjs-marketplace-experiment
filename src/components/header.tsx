@@ -78,7 +78,7 @@ export default function Header() {
             </ul>
           </div>
         </div>
-        <div className="flex items-center space-x-6 overflow-x-auto py-2 text-sm justify-center w-fit">
+        <div className="flex items-center space-x-6 py-2 text-sm justify-center flex-wrap">
           {categories.map((category, i) => (
             <Fragment key={category.title}>
               <Link key={category.title} href={category.link}>

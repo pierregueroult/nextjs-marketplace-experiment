@@ -7,7 +7,7 @@ type AuthLayoutProps = Readonly<{ children: ReactNode }>;
 export default async function AuthLayout({ children }: AuthLayoutProps) {
     const { session} = await getSession();
 
-    if(session) redirect("/");
+    if(!session) redirect("/");
 
     return children;
 }
