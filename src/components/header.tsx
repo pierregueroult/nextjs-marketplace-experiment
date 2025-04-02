@@ -81,7 +81,7 @@ export default function Header() {
         <div className="flex items-center space-x-6 py-2 text-sm justify-center flex-wrap">
           {categories.map((category, i) => (
             <Fragment key={category.title}>
-              <Link key={category.title} href={category.link}>
+              <Link href={category.link}>
                 {category.title}
               </Link>
               {i < categories.length - 1 && <span className="text-gray-400">•</span>}
