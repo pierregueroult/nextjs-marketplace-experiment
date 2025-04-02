@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon, CircleXIcon, Loader2Icon } from "lucide-react";
+import { CircleXIcon, Loader2Icon } from "lucide-react";
 import { type LoginSchema, loginSchema, twoFactorLength } from "@/schemas/login-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
