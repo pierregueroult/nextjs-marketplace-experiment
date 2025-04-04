@@ -34,9 +34,7 @@ export async function log(message: string, { level = "INFO", context = "GENERAL"
   const date = new Date().toISOString();
   let prefix = grayColor + date + " " + colors[level] + level;
 
-  if (context) {
-    prefix += " " + resetColor + "[" + context + "]";
-  }
+  if (context) prefix += " " + resetColor + "[" + context + "]";
 
   const formattedMessage = prefix + " " + resetColor + message;
 

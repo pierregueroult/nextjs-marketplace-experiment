@@ -65,3 +65,25 @@ export const resetPassword: ResetPasswordFunction = async (token, password) => {
     headers: await headers(),
   });
 };
+
+type EnableTwoFactorFunction = (password: string) => Promise<void>;
+
+export const enableTwoFactor: EnableTwoFactorFunction = async (password) => {
+  await auth.api.enableTwoFactor({
+    body: {
+      password,
+    },
+    headers: await headers(),
+  });
+};
+
+type DisableTwoFactorFunction = (password: string) => Promise<void>;
+
+export const disableTwoFactor: DisableTwoFactorFunction = async (password) => {
+  await auth.api.disableTwoFactor({
+    body: {
+      password,
+    },
+    headers: await headers(),
+  });
+};

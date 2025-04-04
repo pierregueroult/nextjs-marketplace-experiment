@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
+import { Toaster } from "@/components/ui/sonner";
 
 type RootLayoutProps = Readonly<{
   children: ReactNode;
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <Header />
             {children}
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

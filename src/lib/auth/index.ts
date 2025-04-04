@@ -49,6 +49,7 @@ export const auth = betterAuth({
         digits: twoFactorLength,
         period: 20,
       },
+      skipVerificationOnEnable: true,
     }),
     nextCookies(),
   ],

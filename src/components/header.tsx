@@ -100,11 +100,6 @@ export default async function Header() {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
                         <Link href="/account/">
-                          Profile
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href="/account/settings">
                           Settings
                         </Link>
                       </DropdownMenuItem>

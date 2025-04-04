@@ -7,6 +7,7 @@ export const {
   signOut,
   forgetPassword: forgotPassword,
   resetPassword,
+  useSession,
 } = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   plugins: [twoFactorClient()],

@@ -1,23 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { getSession, signOut } from "@/lib/auth/server";
-
 export default async function AccountPage() {
-  const {  user } = await getSession();
-
   return (
-    <div>
-      This is the account page for {user?.name}
-      <form>
-        <Button
-          formAction={async () => {
-            "use server";
-
-            await signOut();
-          }}
-        >
-          Sign out
-        </Button>
-      </form>
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Profile</h3>
+        <p className="text-sm text-muted-foreground">Manage your personal information and how it appears to others.</p>
+      </div>
     </div>
   );
 }
