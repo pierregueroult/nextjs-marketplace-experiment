@@ -1,7 +1,7 @@
 "use server";
 import { actionClient } from "@/lib/safe-action";
 import { resetPasswordSchema } from "@/schemas/reset-password-schema";
-import { resetPassword } from "@/services/auth-server";
+import { resetPassword } from "@/lib/auth/server";
 import { APIError as AuthError } from "better-auth/api";
 
 export const resetPasswordAction = actionClient

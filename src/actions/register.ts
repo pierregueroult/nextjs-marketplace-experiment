@@ -2,7 +2,7 @@
 import { EmailDeliveryError, SMTPServerError } from "@/emails/error";
 import { actionClient } from "@/lib/safe-action";
 import { registerSchema } from "@/schemas/register-schema";
-import { signUp } from "@/services/auth-server";
+import { signUp } from "@/lib/auth/server";
 import { APIError as AuthError } from "better-auth/api";
 
 export const register = actionClient

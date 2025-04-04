@@ -1,7 +1,7 @@
 "use server";
 import { actionClient } from "@/lib/safe-action";
 import { loginSchema } from "@/schemas/login-schema";
-import { signIn } from "@/services/auth-server";
+import { signIn } from "@/lib/auth/server";
 import { APIError as AuthError } from "better-auth/api";
 
 export const login = actionClient

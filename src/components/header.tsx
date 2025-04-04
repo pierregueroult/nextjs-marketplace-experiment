@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import { Input } from "./ui/input";
-import { getSession } from "@/services/auth-server";
+import { getSession } from "@/lib/auth/server";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 

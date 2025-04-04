@@ -1,6 +1,6 @@
 import { TwoFactorForm } from "@/components/two-factor-form";
 import { auth } from "@/lib/auth";
-import { getSession } from "@/services/auth-server";
+import { getSession } from "@/lib/auth/server";
 
 export default async function AccountSettingsPage() {
     const { session, user } = await getSession();

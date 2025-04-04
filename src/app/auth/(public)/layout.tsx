@@ -1,4 +1,4 @@
-import { getSession } from "@/services/auth-server";
+import { getSession } from "@/lib/auth/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";

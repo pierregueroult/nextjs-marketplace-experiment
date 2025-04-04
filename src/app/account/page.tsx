@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getSession, signOut } from "@/services/auth-server";
+import { getSession, signOut } from "@/lib/auth/server";
 
 export default async function AccountPage() {
   const {  user } = await getSession();

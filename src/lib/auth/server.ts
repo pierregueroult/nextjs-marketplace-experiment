@@ -38,7 +38,7 @@ export const signIn: SignInFunction = async (email, password, rememberMe = true)
 
 type SignOutFunction = () => Promise<void>;
 
-export const signOut: SignOutFunction = async (): Promise<void> => {
+export const signOut: SignOutFunction = async () => {
   await auth.api.signOut({ headers: await headers() });
 };
 

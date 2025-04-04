@@ -1,7 +1,7 @@
 "use server";
 import { actionClient } from "@/lib/safe-action";
 import { forgotPasswordSchema } from "@/schemas/forgot-password-schema";
-import { forgotPassword } from "@/services/auth-server";
+import { forgotPassword } from "@/lib/auth/server";
 import { APIError as AuthError } from "better-auth/api";
 
 export const forgotPasswordAction = actionClient

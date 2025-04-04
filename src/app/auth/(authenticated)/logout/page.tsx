@@ -1,4 +1,4 @@
-import { signOut } from "@/services/auth-server";
+import { signOut } from "@/lib/auth/server";
 
 export default async function LogoutPage() {
     await signOut();
