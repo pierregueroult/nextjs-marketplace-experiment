@@ -81,7 +81,7 @@ export function LoginForm() {
               <FormItem className="grid gap-2">
                 <div className="flex items-center">
                   <FormLabel>Password</FormLabel>
-                  <Link href="/forgot-password" className="ml-auto text-sm underline-offset-4 hover:underline">
+                  <Link href="/auth/forgot-password" className="ml-auto text-sm underline-offset-4 hover:underline">
                     Forgot password?
                   </Link>
                 </div>

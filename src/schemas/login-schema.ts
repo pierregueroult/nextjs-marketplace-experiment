@@ -7,9 +7,14 @@ const twoFactorCode: RegExp = new RegExp(`^\\d{${twoFactorLength}}$`);
 
 export const loginSchema = z.object({
   email: emailSchema,
-  password: z.string().min(8, {
-    message: "Password should be at least 8 characters long.",
-  }),
+  password: z
+    .string()
+    .min(8, {
+      message: "Password should be at least 8 characters long.",
+    })
+    .max(64, {
+      message: "Password should be at most 64 characters long.",
+    }),
   twoFactorCode: z
     .string()
     .length(twoFactorLength, {

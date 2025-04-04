@@ -4,6 +4,8 @@ import { twoFactor } from "better-auth/plugins";
 import { nextCookies, toNextJsHandler } from "better-auth/next-js";
 import { prisma } from "@/database";
 import send from "@/emails/send";
+import { twoFactorLength } from "@/schemas/login-schema";
+import { passwordMaxLength, passwordMinLength } from "@/schemas/generics/password";
 
 export const auth = betterAuth({
   appName: "Next.js Marketplace Experiment",
@@ -12,9 +14,17 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: passwordMinLength,
+    maxPasswordLength: passwordMaxLength,
     requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await send({
+        to: user.email,
+        subject: "Reset your password",
+        template: `Click <a href="${url}">here</a> to reset your password.`,
+      });
+    },
   },
-  plugins: [twoFactor(), nextCookies()],
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       await send({
@@ -26,6 +36,22 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     expiresIn: 60 * 20,
   },
+  plugins: [
+    twoFactor({
+      otpOptions: {
+        sendOTP: async ({ user, otp }) => {
+          await send({
+            to: user.email,
+            subject: "Your OTP code",
+            template: `Your OTP code is ${otp}.`,
+          });
+        },
+        digits: twoFactorLength,
+        period: 20,
+      },
+    }),
+    nextCookies(),
+  ],
 });
 
 export const { POST, GET } = toNextJsHandler(auth);
